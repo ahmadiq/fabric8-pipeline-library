@@ -19,8 +19,13 @@ def call(body) {
         profile = '-P kubernetes'
     }
 
+    sh "git tag ${env.JOB_NAME}-${config.version}"
+    sh "git push origin :refs/tags/${env.JOB_NAME}-${config.version}"
+
     // this seems nice as its being checked out into specific branch
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
+    sh "git push origin :refs/heads/${env.JOB_NAME}-${config.version}"
+
 
     // set new version!
     sh "./mvnw org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${config.version}"
