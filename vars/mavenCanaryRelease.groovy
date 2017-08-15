@@ -19,12 +19,9 @@ def call(body) {
         profile = '-P kubernetes'
     }
 
-//    sh "git tag ${env.JOB_NAME}-${config.version}"
-//    sh "git push origin --tags"
-
     // this seems nice as its being checked out into specific branch
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
-    sh "git push origin ${env.JOB_NAME}-${config.version}"
+    sh "git tag -fa v${config.version} -m 'Release version ${config.version}'"
 
 
     // set new version!
