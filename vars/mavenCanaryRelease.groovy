@@ -22,13 +22,6 @@ def call(body) {
     // this seems nice as its being checked out into specific branch
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
 
-    //push release git branch and tag
-    sh "echo 'git release with remote ${config.projectGit} and version ${config.version}'"
-    gitRelease {
-        remote = "${config.projectGit}"
-        version = "${config.version}"
-    }
-
     // set new version!
     sh "./mvnw org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${config.version}"
 
@@ -60,6 +53,12 @@ def call(body) {
     }
 
 //    sonarQubeScanner(body)
+
+    //push release git branch and tag
+    gitRelease {
+        remote = "${config.projectGit}"
+        version = "${config.version}"
+    }
 
     def s2iMode = flow.isOpenShiftS2I()
     echo "s2i mode: ${s2iMode}"
