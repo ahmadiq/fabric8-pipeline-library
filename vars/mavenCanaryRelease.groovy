@@ -24,8 +24,8 @@ def call(body) {
 
     //push release git branch and tag
     gitRelease {
-        remote = ${config.projectGit}
-        version = ${config.version}
+        remote = "${config.projectGit}"
+        version = "${config.version}"
     }
 
     // set new version!
