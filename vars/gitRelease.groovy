@@ -5,8 +5,7 @@ def call(body) {
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = config
     body()
-    
-    sh "echo 'releasing with remote ${config.remote} and version ${config.version}'"
+
     sh "git remote set-url origin ${config.remote}"
     sh "git config user.email admin@stakater.com"
     sh "git config user.name stakater-release"
