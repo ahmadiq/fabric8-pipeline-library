@@ -23,6 +23,7 @@ def call(body) {
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
 
     //push release git branch and tag
+    sh "echo 'git release with remote ${config.projectGit} and version ${config.version}'"
     gitRelease {
         remote = "${config.projectGit}"
         version = "${config.version}"
