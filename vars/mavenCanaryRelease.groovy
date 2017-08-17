@@ -20,8 +20,21 @@ def call(body) {
     }
 
     // this seems nice as its being checked out into specific branch
-    sh "git checkout -b ${env.JOB_NAME}-${config.version}"
+    //sh "git checkout -b ${env.JOB_NAME}-${config.version}"
+    
+    sh "git remote set-url origin git@github.com:${config.project}.git"
+    sh "git config user.email admin@stakater.com"
+    sh "git config user.name stakater-release"
+
+    sh 'chmod 600 /root/.ssh-git/*'
+    //sh 'chmod 600 /root/.ssh-git/ssh-key.pub'
+    sh 'chmod 700 /root/.ssh-git'
+
+
     sh "git tag -fa v${config.version} -m 'Release version ${config.version}'"
+    sh "git push origin v${config.version}"
+    sh "git checkout -b ${config.version}"
+    sh "git push origin ${config.version}"
 
 
     // set new version!
