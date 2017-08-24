@@ -24,11 +24,11 @@ def setupWorkspaceForRelease(String project, String useGitTagOrBranchForNextVers
     if (!useGitTagOrBranchForNextVersion.equalsIgnoreCase("branch")) {
         def newVersion = flow.getNewVersionFromTag(currentVersion)
         echo "New release version ${newVersion}"
-        sh "mvn -U versions:set -DnewVersion=${newVersion} " + mvnExtraArgs
+        sh "./mvnw -U versions:set -DnewVersion=${newVersion} " + mvnExtraArgs
         sh "git commit -a -m 'release ${newVersion}'"
         flow.pushTag(newVersion)
     } else {
-        sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} ' + mvnExtraArgs
+        sh './mvnw build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} ' + mvnExtraArgs
     }
 
     if (!useGitTagOrBranchForNextVersion.equalsIgnoreCase("tag")) {
